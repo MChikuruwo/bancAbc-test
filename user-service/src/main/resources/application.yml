@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: user-service
+  profiles:
+    active: dev
+
+app-name: "user-service"
+
+product:
+  name: BancABC
+
+server:
+  port: 8202

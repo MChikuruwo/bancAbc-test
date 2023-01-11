@@ -1,0 +1,9 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: file-storage-service
+  profiles:
+    active: dev
+server:
+  port: 8093
