@@ -5,7 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import zw.co.firstmutual.ussdcommons.api.ApiResponse;
+import zw.co.bancabc.commonutils.api.ApiResponse;
+import zw.co.bancabc.commonutils.exceptions.*;
 
 import javax.persistence.EntityNotFoundException;
 

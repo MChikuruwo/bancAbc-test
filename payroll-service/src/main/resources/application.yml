@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: payroll-service
+  profiles:
+    active: dev
+
+app-name: "payroll-service"
+
+product:
+  name: BancABC
+
+server:
+  port: 8201

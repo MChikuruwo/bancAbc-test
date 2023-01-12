@@ -1,4 +1,4 @@
-package zw.co.bancabc.userservice.config;
+package zw.co.bancabc.payrollservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +20,7 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("zw.co.firstmutual.userservice.controller.user"))
+                .apis(RequestHandlerSelectors.basePackage("zw.co.bancabc.payrollservice.controller"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo());
@@ -29,8 +29,8 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
-                "USER SERVICE  REST API",
-                "REST API to manage FMHL group users.",
+                "PAYROLL SERVICE  REST API",
+                "REST API to manage PAYROLL SERVICE.",
                 "API Terms of Service",
                 "Terms of service",
                 new Contact("Munyaradzi Chikuruwo", "+263779821348", "mchikuruwo@hotmail.com"),

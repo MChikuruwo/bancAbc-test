@@ -42,5 +42,8 @@
         <module>user-service</module>
         <module>file-storage-service</module>
         <module>payroll-service</module>
+        <module>registry</module>
+        <module>gateway</module>
+
     </modules>
 </project>

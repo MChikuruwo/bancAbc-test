@@ -46,16 +46,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //DataBase Authentication with  mobile number
         auth.userDetailsService((UserDetailsService) userService).passwordEncoder(passwordEncoder);
     }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/api/v1/auth/**", "/api/v1/users/signUp/**", "/api/v1/auth/login").permitAll()
-                .antMatchers(HttpMethod.PUT, "/api/v1/users/reset-pin").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/v1/secure/login/**", "/api/v1/users/signUp/**").permitAll()
+                .antMatchers(HttpMethod.PUT, "/api/v1/users/reset-credentials").permitAll()
                 .antMatchers("/", "/eureka/**").permitAll()
-                .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**", "/configuration/security", "/swagger-ui.html", "/webjars/**").permitAll()
-                .anyRequest().permitAll()
+                .antMatchers("/api/v1/admin/users/").access("hasRole('ADMIN')")
+                .antMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(this.authenticationEntryPoint)

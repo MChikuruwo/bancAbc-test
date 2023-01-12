@@ -3,8 +3,8 @@ package zw.co.bancabc.commonutils.handler;
 import com.google.gson.Gson;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.filter.OncePerRequestFilter;
-import zw.co.firstmutual.ussdcommons.api.ApiResponse;
-import zw.co.firstmutual.ussdcommons.exceptions.InvalidTokenException;
+import zw.co.bancabc.commonutils.api.ApiResponse;
+import zw.co.bancabc.commonutils.exceptions.InvalidTokenException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -18,11 +18,11 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
         try {
             filterChain.doFilter(httpServletRequest, httpServletResponse);
 
-        } catch (InvalidTokenException e){
+        } catch (InvalidTokenException e) {
             setErrorResponse(HttpStatus.UNAUTHORIZED, e.getLocalizedMessage(), httpServletResponse);
             e.printStackTrace();
 
-        } catch (RuntimeException e){
+        } catch (RuntimeException e) {
             setErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage(), httpServletResponse);
 
         }

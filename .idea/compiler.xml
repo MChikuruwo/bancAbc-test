@@ -2,14 +2,17 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="registry" />
         <module name="common-utils" />
         <module name="file-storage-service" />
         <module name="payroll-service" />
         <module name="user-service" />
+        <module name="gateway" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -20,7 +23,9 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="common-utils" options="-parameters" />
       <module name="file-storage-service" options="-parameters" />
+      <module name="gateway" options="-parameters" />
       <module name="payroll-service" options="-parameters" />
+      <module name="registry" options="-parameters" />
       <module name="user-service" options="-parameters" />
       <module name="user-service (1)" options="-parameters" />
     </option>

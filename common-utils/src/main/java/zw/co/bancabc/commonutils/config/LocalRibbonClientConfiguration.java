@@ -13,9 +13,9 @@ public class LocalRibbonClientConfiguration {
 
     @Bean
     public ServerList<Server> ribbonServerList() {
-        StaticServerList<Server> staticServerList = new StaticServerList<>((new Server("localhost", 8202))
-                , new Server("localhost", 9084),
-                new Server("localhost", 9085),
+        StaticServerList<Server> staticServerList = new StaticServerList<>((new Server("localhost", 8200))
+                , new Server("localhost", 8201),
+                new Server("localhost", 8202),
                 new Server("localhost", 9086),
                 new Server("localhost", 9087),
                 new Server("localhost",9088));

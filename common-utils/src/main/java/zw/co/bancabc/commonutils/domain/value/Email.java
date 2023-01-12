@@ -1,7 +1,7 @@
 package zw.co.bancabc.commonutils.domain.value;
 
-import zw.co.firstmutual.ussdcommons.domain.enums.ExceptionCode;
-import zw.co.firstmutual.ussdcommons.exceptions.InvalidEmailException;
+import zw.co.bancabc.commonutils.domain.enums.ExceptionCode;
+import zw.co.bancabc.commonutils.exceptions.InvalidEmailException;
 
 import java.io.Serializable;
 import java.util.regex.Matcher;

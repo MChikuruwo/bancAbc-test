@@ -1,0 +1,92 @@
+info:
+  app:
+    name: Payroll-service
+    version: '1.0'
+    description: API for payroll-service on the BancABC payroll platform.
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    healthcheck:
+      enabled: 'true'
+    fetch-registry: 'true'
+    enabled: 'true'
+    register-with-eureka: 'true'
+    lease:
+      duration: '5'
+  instance:
+    hostname: payroll-service
+    prefer-ip-address: 'true'
+    lease-renewal-interval-in-seconds: '1'
+    lease-expiration-duration-in-seconds: '2'
+
+spring:
+  main:
+    allow-bean-definition-overriding: 'true'
+  #    web-application-type: reactive
+
+
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+      max_allowed_packet: '2000'
+    show-sql: 'true'
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password:
+    username: root
+    url: jdbc:mysql://localhost:3306/payroll?createDatabaseIfNotExist=true&useSSL=false&autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=Africa/Harare
+
+  application:
+    name: Payroll-service
+
+  servlet:
+    multipart:
+      max-file-size: 100MB
+logging:
+  level:
+    org:
+      hibernate: ERROR
+      springframework:
+        web: INFO
+    guru:
+      springframework:
+        controllers: DEBUG
+  file:
+    name: logs/payroll-service.log
+security:
+  oauth2:
+    client:
+      client-secret: RobTheRich
+      client-id: payroll-service
+server:
+  port: '8201'
+  ssl:
+    enabled: 'false'
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+feign:
+  client:
+    config:
+      default:
+        readTimeout: '160000000'
+        connectTimeout: '160000000'
+
+ribbon:
+  eureka:
+    enabled: true

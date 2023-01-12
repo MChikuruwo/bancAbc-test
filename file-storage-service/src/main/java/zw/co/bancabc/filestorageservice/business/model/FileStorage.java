@@ -2,7 +2,7 @@ package zw.co.bancabc.filestorageservice.business.model;
 
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
-import zw.co.codehive.strixpay.strixpaycommons.dtos.AbstractAuditingEntity;
+import zw.co.bancabc.commonutils.domain.value.AbstractAuditingEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

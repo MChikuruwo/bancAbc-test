@@ -24,7 +24,8 @@ public enum ExceptionCode {
     USER_DEVICE_DETAILS_NOT_FOUND(21),
     USER_NOT_OTP_ENABLED(22),
     USER_ID_NOT_FOUND(23),
-    USER_AUTHENTICATION_ERROR(24);
+    USER_AUTHENTICATION_ERROR(24),
+    EMPLOYEE_CODE_NOT_FOUND(25);
 
     ExceptionCode(int i) {
     }

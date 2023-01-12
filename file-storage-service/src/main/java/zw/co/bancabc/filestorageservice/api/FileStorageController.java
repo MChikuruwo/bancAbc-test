@@ -5,9 +5,9 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import zw.co.bancabc.commonutils.domain.response.UploadFileResponse;
 import zw.co.bancabc.filestorageservice.business.model.FileStorage;
 import zw.co.bancabc.filestorageservice.business.service.FileStorageService;
-import zw.co.codehive.strixpay.strixpaycommons.response.UploadFileResponse;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +20,7 @@ public class FileStorageController {
 
     private final FileStorageService dbFileStorageService;
 
-    @PostMapping(value="/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) {
         FileStorage dbFile = dbFileStorageService.storeFile(file);
 

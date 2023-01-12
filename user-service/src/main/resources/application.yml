@@ -10,4 +10,4 @@ product:
   name: BancABC
 
 server:
-  port: 8202
+  port: 8200

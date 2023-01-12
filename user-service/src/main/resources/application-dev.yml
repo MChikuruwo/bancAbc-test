@@ -2,7 +2,7 @@ info:
   app:
     name: User-service
     version: '1.0'
-    description: API for user-service on the FMHL group platform.
+    description: API for user-service on the BancABC payroll platform.
 eureka:
   client:
     service-url:
@@ -51,6 +51,20 @@ spring:
   servlet:
     multipart:
       max-file-size: 100MB
+  zipkin:
+   base-url: http://localhost:9411/
+    sleuth:
+      sampler:
+        probability: 1
+sleuth:
+   sampler:
+     probability: '1'
+ servlet:
+   multipart:
+      max-file-size: 100MB
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
 logging:
   level:
     org:
@@ -81,17 +95,9 @@ management:
     health:
       show-details: always
 feign:
-# circuitbreaker:
-#   enabled: 'true'
  client:
     config:
       default:
-        readTimeout: '160000000'
-        connectTimeout: '160000000'
-      LIFE-USSD:
-        readTimeout: '160000000'
-        connectTimeout: '160000000'
-      HOLDINGS-USSD:
         readTimeout: '160000000'
         connectTimeout: '160000000'
 ribbon:

@@ -10,11 +10,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import zw.co.codehive.strixpay.strixpaycommons.handlers.ExceptionHandlerFilter;
-import zw.co.codehive.strixpay.strixpaycommons.security.AuthServiceFeignClient;
-import zw.co.codehive.strixpay.strixpaycommons.security.JWTAuthenticationFilter;
-import zw.co.codehive.strixpay.strixpaycommons.security.JwtAuthenticationEntryPoint;
-import zw.co.codehive.strixpay.strixpaycommons.security.JwtTokenProvider;
+import zw.co.bancabc.commonutils.handler.ExceptionHandlerFilter;
+import zw.co.bancabc.commonutils.security.AuthServiceFeignClient;
+import zw.co.bancabc.commonutils.security.JWTAuthenticationFilter;
+import zw.co.bancabc.commonutils.security.JwtAuthenticationEntryPoint;
+import zw.co.bancabc.commonutils.security.JwtTokenProvider;
 
 @Configuration
 @EnableWebSecurity
@@ -69,3 +69,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new ExceptionHandlerFilter();
     }
 }
+
