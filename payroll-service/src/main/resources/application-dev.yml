@@ -86,7 +86,13 @@ feign:
       default:
         readTimeout: '160000000'
         connectTimeout: '160000000'
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
 
+  feign:
+   file:
+     client: http://localhost:8202/
 ribbon:
   eureka:
     enabled: true

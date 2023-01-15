@@ -1,8 +1,10 @@
 package zw.co.bancabc.payrollservice.payload.response;
 
-import zw.co.bancabc.payrollservice.business.model.Employee;
+import zw.co.bancabc.commonutils.domain.enums.PaymentStatus;
 
 import java.math.BigInteger;
 
-public record PaymentResponse(BigInteger salaryAmount, Employee employee)  {
+public record PaymentResponse(String employeeName, String employeeCode, BigInteger salaryAmount,
+                              PaymentStatus paymentStatus) {
+
 }

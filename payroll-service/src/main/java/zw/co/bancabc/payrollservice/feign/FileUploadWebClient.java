@@ -13,9 +13,8 @@ import zw.co.bancabc.commonutils.config.LocalRibbonClientConfiguration;
 import zw.co.bancabc.commonutils.domain.response.UploadFileResponse;
 import zw.co.bancabc.payrollservice.business.model.FileStorage;
 
-@FeignClient(value = "HCP-USSD", decode404 = true, url = "${spring.feign.file-upload.client}")
-@Headers({"X-Application-Context", "firstmutual-ussd:1980"})
-@RibbonClient(value = "FILE-STORAGE",configuration = LocalRibbonClientConfiguration.class)
+@FeignClient(name = "FILE-STORAGE-SERVICE", decode404 = true, url = "${spring.feign.file.client}")
+@RibbonClient(value = "FILE-STORAGE-SERVICE",configuration = LocalRibbonClientConfiguration.class)
 public interface FileUploadWebClient {
 
 

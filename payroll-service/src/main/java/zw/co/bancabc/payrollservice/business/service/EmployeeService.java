@@ -44,14 +44,14 @@ public class EmployeeService {
 
     }
 
-    public EmployeeResponse findEmployeeByEmployeeCode(String employeeCode) {
+    public Employee findEmployeeByEmployeeCode(String employeeCode) {
 
         var employee = employeeRepository.findEmployeeByEmployeeCode(employeeCode);
 
         if (employee.isEmpty())
             throw new EmployeeCodeNotFoundException("employee code does not exist", ExceptionCode.EMPLOYEE_CODE_NOT_FOUND);
 
-        return new EmployeeResponse(employee.get().getFirstName(), employee.get().getLastName(), employee.get().getEmployeeCode());
+        return employee.get();
     }
 
     public EmployeeResponse findEmployeeByEmail(String email) {
