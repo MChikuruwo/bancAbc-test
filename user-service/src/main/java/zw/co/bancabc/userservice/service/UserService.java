@@ -40,7 +40,7 @@ public class UserService implements UserDetailsService {
     private final JwtTokenProvider tokenProvider;
 
 
-    public UserResponse add(final User user) {
+    public UserResponse add(User user) {
         var mobileNumberFromDatabase = Optional.ofNullable(userRepository.findUserByMobileNumber(user.getMobileNumber()));
 
         var userNameFromDatabase = Optional.ofNullable(userRepository.findUserByUserName(user.getUserName()));
@@ -53,14 +53,9 @@ public class UserService implements UserDetailsService {
 
         var pin = user.getPassword();
 
-        if (!NumberUtils.isDigits(pin))
-            throw new InvalidUserPinException("user.pin.must.contain.numbers.only", ExceptionCode.INVALID_USER_PIN);
-
-        if (pin.length() != 4)
-            throw new InvalidUserPinException("pin.length.must.be.4", ExceptionCode.INVALID_USER_PIN);
         user.setPassword(passwordEncoder.encode(pin));
 
-//        userRepository.save(user);
+        userRepository.save(user);
 
         return new UserResponse(user.getFirstName(), user.getLastName(),
                 user.getMobileNumber(), user.getUserName(), user.getEmail());
@@ -71,7 +66,7 @@ public class UserService implements UserDetailsService {
         var user = getCurrentUser();
 
         if (!passwordEncoder.matches(pin, user.getPassword())) {
-            throw new InvalidUserPinException("invalid.user.pin", ExceptionCode.INVALID_USER_PIN);
+            throw new InvalidUserPinException("invalid.user.password", ExceptionCode.INVALID_USER_PIN);
         }
     }
 
@@ -117,7 +112,7 @@ public class UserService implements UserDetailsService {
         // Carry date created timestamp
         user.setCreatedDate(userFromDatabase.get().getCreatedDate());
 
-        //set new pin by user
+        //set new password by user
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         return userRepository.save(user);
@@ -185,17 +180,17 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String mobileNumber) throws UsernameNotFoundException {
-        var user = userRepository.findUserByMobileNumber(new MobileNumber(mobileNumber));
-        user.getRole().toString();
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        var user = userRepository.findUserByEmail(new Email(email));
+        user.get().getRole().toString();
         Set<GrantedAuthority> grantedAuthorities = null;
         try {
-            user = userRepository.findUserByMobileNumber(new MobileNumber(mobileNumber));
+            userRepository.findUserByEmail(new Email(email));
             if (user == null)
-                throw new MobileNumberNotFoundException("Mobile.number: " + mobileNumber + " not.found.", ExceptionCode.MOBILE_NUMBER_NOT_FOUND);
+                throw new EmailAddressNotFoundException("email.address: " + email + " not.found.", ExceptionCode.EMAIL_NOT_FOUND);
 
             grantedAuthorities = new HashSet<>();
-            for (Role role : user.getRole()) {
+            for (Role role : user.get().getRole()) {
                 String roleName = "" + role.getName();
                 GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(roleName);
                 grantedAuthorities.add(grantedAuthority);
@@ -204,11 +199,10 @@ public class UserService implements UserDetailsService {
             exp.printStackTrace();
         }
         if (user == null) {
-            //TODO: Set an error that the user by that email address cannot be found
-            throw new MobileNumberNotFoundException("mobile.number:" + mobileNumber + " not.found.", ExceptionCode.MOBILE_NUMBER_NOT_FOUND);
+            throw new EmailAddressNotFoundException("email.address: " + email + " not.found.", ExceptionCode.EMAIL_NOT_FOUND);
 
         }
-        return new UserPrincipal(user, user.getPassword(), grantedAuthorities);
+        return new UserPrincipal(user.get(), user.get().getPassword(), grantedAuthorities);
     }
 
     public Optional<User> findByEmail(Email email) {

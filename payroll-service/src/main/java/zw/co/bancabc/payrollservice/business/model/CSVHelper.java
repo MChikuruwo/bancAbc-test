@@ -9,6 +9,7 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -20,7 +21,7 @@ import zw.co.bancabc.commonutils.exceptions.CSVParseException;
 
 public class CSVHelper {
     public static String TYPE = "text/csv";
-    static String[] HEADERS = { "id", "employeeName", "employeeCode", "salaryAmount", "paymentStatus","paymentReference"};
+    static String[] HEADERS = { "id", "employeeName", "employeeCode", "salaryAmount", "paymentStatus","paymentReference", "approved"};
 
     public static boolean hasCSVFormat(MultipartFile file) {
 
@@ -40,14 +41,18 @@ public class CSVHelper {
 
             Iterable<CSVRecord> csvRecords = csvParser.getRecords();
 
+            CSVFormat csvFormat = CSVFormat.DEFAULT;
+
             for (CSVRecord csvRecord : csvRecords) {
+
                 Payment payment = new Payment(
-                        Long.parseLong(csvRecord.get("Id")),
+                        Long.parseLong(csvRecord.get("id")),
                         csvRecord.get("employeeName"),
                         csvRecord.get("employeeCode"),
                         BigInteger.valueOf(Long.parseLong(csvRecord.get("salaryAmount"))),
                         PaymentStatus.valueOf(csvRecord.get("paymentStatus")),
-                        csvRecord.get("paymentReference")
+                        csvRecord.get("paymentReference"),
+                        Boolean.parseBoolean(csvRecord.get("approved"))
                 );
 
                 payments.add(payment);

@@ -1,7 +1,6 @@
 package zw.co.bancabc.payrollservice.business.service;
 
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import zw.co.bancabc.commonutils.domain.enums.ExceptionCode;
@@ -14,7 +13,6 @@ import zw.co.bancabc.payrollservice.business.model.CSVHelper;
 import zw.co.bancabc.payrollservice.business.model.Payment;
 import zw.co.bancabc.payrollservice.business.repository.PaymentRepository;
 import zw.co.bancabc.payrollservice.payload.request.PaymentRequest;
-import zw.co.bancabc.payrollservice.payload.request.PaymentStatusUpdateRequest;
 import zw.co.bancabc.payrollservice.payload.response.PaymentResponse;
 
 import java.io.IOException;
@@ -27,7 +25,6 @@ public class PaymentService {
 
     private final PaymentRepository paymentRepository;
     private final EmployeeService employeeService;
-    private final ModelMapper modelMapper;
 
 
     public PaymentResponse addIndividualPayment(String employeeCode, PaymentRequest paymentRequest) {
@@ -45,45 +42,45 @@ public class PaymentService {
 
         paymentRepository.save(payment);
 
-        return new PaymentResponse(payment.getEmployeeName(), payment.getEmployeeCode(), payment.getSalaryAmount(), payment.getPaymentStatus());
+        return new PaymentResponse(payment.getPaymentReference(), payment.getEmployeeName(), payment.getEmployeeCode(), payment.getSalaryAmount(), payment.getPaymentStatus());
     }
 
-    public PaymentResponse approvePayment(String reference, PaymentStatusUpdateRequest paymentStatusUpdateRequest) {
+    public PaymentResponse approvePayment(String reference) {
 
         var paymentToApprove = paymentRepository.findPaymentByPaymentReference(reference);
 
         if (paymentToApprove.isEmpty())
             throw new PaymentReferenceNotFoundException("reference: " + reference + " not found", ExceptionCode.PAYMENT_REFERENCE_NOT_FOUND);
 
-        var payment = modelMapper.map(paymentStatusUpdateRequest, Payment.class);
+//        var payment = modelMapper.map(paymentStatusUpdateRequest, Payment.class);
 
-        payment.setPaymentStatus(PaymentStatus.APPROVED);
+        paymentToApprove.get().setPaymentStatus(PaymentStatus.APPROVED);
 
-        payment.setApproved(true);
+        paymentToApprove.get().setApproved(true);
 
-        payment.setCreatedDate(paymentToApprove.get().getCreatedDate());
+//        paymentToApprove.get().setCreatedDate(paymentToApprove.get().getCreatedDate());
 
-        paymentRepository.save(payment);
+        paymentRepository.save(paymentToApprove.get());
 
-        return new PaymentResponse(payment.getEmployeeName(), payment.getEmployeeCode(), payment.getSalaryAmount(), payment.getPaymentStatus());
+        return new PaymentResponse(paymentToApprove.get().getPaymentReference(), paymentToApprove.get().getEmployeeName(), paymentToApprove.get().getEmployeeCode(),
+                paymentToApprove.get().getSalaryAmount(), paymentToApprove.get().getPaymentStatus());
 
     }
 
-    public PaymentResponse rejectPayment(String reference, PaymentStatusUpdateRequest paymentStatusUpdateRequest) {
+    public PaymentResponse rejectPayment(String reference) {
         var paymentToReject = paymentRepository.findPaymentByPaymentReference(reference);
 
         if (paymentToReject.isEmpty())
             throw new PaymentReferenceNotFoundException("reference: " + reference + " not found", ExceptionCode.PAYMENT_REFERENCE_NOT_FOUND);
 
-        var payment = modelMapper.map(paymentStatusUpdateRequest, Payment.class);
+        paymentToReject.get().setPaymentStatus(PaymentStatus.REJECTED);
 
-        payment.setPaymentStatus(PaymentStatus.REJECTED);
+//        paymentToReject.get().setCreatedDate(paymentToReject.get().getCreatedDate());
 
-        payment.setCreatedDate(paymentToReject.get().getCreatedDate());
+        paymentRepository.save(paymentToReject.get());
 
-        paymentRepository.save(payment);
-
-        return new PaymentResponse(payment.getEmployeeName(), payment.getEmployeeCode(), payment.getSalaryAmount(), payment.getPaymentStatus());
+        return new PaymentResponse(paymentToReject.get().getPaymentReference(), paymentToReject.get().getEmployeeName(), paymentToReject.get().getEmployeeCode(),
+                paymentToReject.get().getSalaryAmount(), paymentToReject.get().getPaymentStatus());
     }
 
     public List<PaymentResponse> findByPaymentsByStatus(String paymentStatus) {
@@ -93,7 +90,7 @@ public class PaymentService {
         if (payments.isEmpty())
             throw new PaymentsUnavailableException("payments for status: " + paymentStatus + " not found.", ExceptionCode.PAYMENTS_UNAVAILABLE);
 
-        return payments.stream().map(a -> new PaymentResponse(a.getEmployeeName(), a.getEmployeeCode(), a.getSalaryAmount(), a.getPaymentStatus())).toList();
+        return payments.stream().map(a -> new PaymentResponse(a.getPaymentReference(), a.getEmployeeName(), a.getEmployeeCode(), a.getSalaryAmount(), a.getPaymentStatus())).toList();
 
     }
 
@@ -116,14 +113,14 @@ public class PaymentService {
         return payments;
     }
 
-    public List<PaymentResponse> findByAllPendingPayments(String paymentStatus) {
+    public List<PaymentResponse> findByAllPendingPayments() {
 
         var payments = paymentRepository.findAllByPaymentStatus(PaymentStatus.PENDING);
 
         if (payments.isEmpty())
-            throw new PaymentsUnavailableException("payments for status: " + paymentStatus + " not found.", ExceptionCode.PAYMENTS_UNAVAILABLE);
+            throw new PaymentsUnavailableException("PENDING payments not found.", ExceptionCode.PAYMENTS_UNAVAILABLE);
 
-        return payments.stream().map(a -> new PaymentResponse(a.getEmployeeName(), a.getEmployeeCode(), a.getSalaryAmount(), a.getPaymentStatus())).toList();
+        return payments.stream().map(a -> new PaymentResponse(a.getPaymentReference(), a.getEmployeeName(), a.getEmployeeCode(), a.getSalaryAmount(), a.getPaymentStatus())).toList();
 
     }
 

@@ -15,7 +15,7 @@ import java.math.BigInteger;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class Payment extends AbstractAuditingEntity {
+public class Payment extends AbstractAuditingEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

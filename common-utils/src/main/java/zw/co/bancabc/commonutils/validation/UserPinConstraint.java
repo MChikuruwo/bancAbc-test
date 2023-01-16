@@ -9,7 +9,7 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UserPinConstraint {
-    String message() default "Invalid.pin.number";
+    String message() default "Invalid.password.number";
 
     Class<?>[] groups() default {};
 

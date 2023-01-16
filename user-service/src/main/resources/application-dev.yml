@@ -23,7 +23,7 @@ eureka:
 spring:
   main:
     allow-bean-definition-overriding: 'true'
-#    web-application-type: reactive
+  #    web-application-type: reactive
 
 
   mvc:
@@ -52,16 +52,14 @@ spring:
     multipart:
       max-file-size: 100MB
   zipkin:
-   base-url: http://localhost:9411/
-    sleuth:
-      sampler:
-        probability: 1
+    base-url: http://localhost:9411/
+
 sleuth:
-   sampler:
-     probability: '1'
- servlet:
-   multipart:
-      max-file-size: 100MB
+  sampler:
+    probability: '1'
+servlet:
+  multipart:
+    max-file-size: 100MB
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
@@ -81,10 +79,7 @@ security:
     client:
       client-secret: RobTheRich
       client-id: User-service
-server:
-  port: '8202'
-  ssl:
-    enabled: 'false'
+
 
 management:
   endpoints:
@@ -95,7 +90,7 @@ management:
     health:
       show-details: always
 feign:
- client:
+  client:
     config:
       default:
         readTimeout: '160000000'

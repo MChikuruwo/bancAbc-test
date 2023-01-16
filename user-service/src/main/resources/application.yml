@@ -10,4 +10,6 @@ product:
   name: BancABC
 
 server:
-  port: 8200
+  port: '8200'
+  ssl:
+    enabled: 'false'

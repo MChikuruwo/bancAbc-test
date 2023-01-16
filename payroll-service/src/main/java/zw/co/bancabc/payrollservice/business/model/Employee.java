@@ -1,5 +1,6 @@
 package zw.co.bancabc.payrollservice.business.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.*;
 import zw.co.bancabc.commonutils.domain.converter.EmailConverter;
 import zw.co.bancabc.commonutils.domain.converter.IdNumberConverter;
@@ -24,6 +25,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
+@JsonDeserialize
 @ToString
 public class Employee extends AbstractAuditingEntity {
 

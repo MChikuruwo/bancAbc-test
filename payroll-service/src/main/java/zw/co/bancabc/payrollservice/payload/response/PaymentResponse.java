@@ -4,7 +4,7 @@ import zw.co.bancabc.commonutils.domain.enums.PaymentStatus;
 
 import java.math.BigInteger;
 
-public record PaymentResponse(String employeeName, String employeeCode, BigInteger salaryAmount,
+public record PaymentResponse(String reference, String employeeName, String employeeCode, BigInteger salaryAmount,
                               PaymentStatus paymentStatus) {
 
 }

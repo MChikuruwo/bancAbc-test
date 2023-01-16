@@ -31,12 +31,12 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getPassword().toString();
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getMobileNumber().toString();
+        return user.getEmail().toString();
     }
 
     @Override

@@ -1,6 +1,5 @@
 package zw.co.bancabc.payrollservice.api;
 
-//import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,14 +21,12 @@ public class EmployeeController {
         return new ApiResponse(HttpStatus.OK.value(), HttpStatus.OK.name(), employeeService.addNewEmployee(employeeRequest));
     }
 
-    @GetMapping(value = "/employee-code/get", consumes = MediaType.APPLICATION_JSON_VALUE)
-//    @ApiOperation(value = "Retrieve employee by employee code")
+    @GetMapping(value = "/employee-code/get", consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_OCTET_STREAM_VALUE},produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiResponse getEmployeeByEmployeeCode(@RequestParam("employeeCode") String employeeCode) {
         return new ApiResponse(HttpStatus.OK.value(), HttpStatus.OK.name(), employeeService.findEmployeeByEmployeeCode(employeeCode));
     }
 
-    @GetMapping(value = "/email-address/get", consumes = MediaType.APPLICATION_JSON_VALUE)
-//    @ApiOperation(value = "Retrieve employee by email address")
+    @GetMapping(value = "/email-address/get",  consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_OCTET_STREAM_VALUE},produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiResponse getEmployeeByEmail(@RequestParam("email") String email) {
         return new ApiResponse(HttpStatus.OK.value(), HttpStatus.OK.name(), employeeService.findEmployeeByEmail(email));
     }

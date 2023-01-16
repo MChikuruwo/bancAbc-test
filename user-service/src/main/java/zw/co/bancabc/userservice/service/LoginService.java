@@ -25,9 +25,9 @@ public class LoginService {
     private final UserService userService;
 
     public Login add(Login login) {
-        var user = userService.findByMobileNumber(login.getUser().getMobileNumber());
+        var user = userService.findByEmail(login.getUser().getEmail());
         if(user==null) {
-            throw new UserNotFoundException("user.with.mobile.number "+user.getMobileNumber()+" not found", ExceptionCode.USER_NOT_FOUND);
+            throw new UserNotFoundException("user.with.mobile.email.address: "+user.get().getEmail()+" not found", ExceptionCode.USER_NOT_FOUND);
         }
         return loginRepository.save(login);
     }

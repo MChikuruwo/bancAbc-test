@@ -1,7 +1,6 @@
 package zw.co.bancabc.userservice.controller.user;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
@@ -37,32 +36,35 @@ public class LoginController {
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
 
+
     @SneakyThrows
     @PostMapping(value = "/login")
-    @ApiOperation("Enables a user to login with mobile number & pin")
-    public ResponseEntity loginWithMobileNumberAndPin(@RequestBody LoginDto accountCredentials) {
+    public ResponseEntity loginWithMobileAndPassword(@RequestBody LoginDto accountCredentials) {
         Authentication authentication = authenticationManager.
                 authenticate(new UsernamePasswordAuthenticationToken(
                         accountCredentials.email(),
-                        accountCredentials.pin()));
+                        accountCredentials.password()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtTokenProvider.generateToken(authentication);
         //Check if the authentication was successful. If it is, then return the details of the user
+
         ApiResponse response;
+
         if (authentication.isAuthenticated()) {
+
             var authenticatedUser = userService.findByEmail(accountCredentials.email()).get();
 
             // Log user login in database
-            Login login = new Login();
+            var login = new Login();
             login.setUser(authenticatedUser);
             loginService.add(login);
 
-            response = new ApiResponse(HttpStatus.OK.value(), HttpStatus.OK.name(),new LogInResponse(authenticatedUser.getEmail()));
+            response = new ApiResponse(200, "SUCCESS", new LogInResponse(authenticatedUser.getFirstName(),
+                    authenticatedUser.getLastName(), authenticatedUser.getUserName()));
             return ResponseEntity.ok().header(HEADER_STRING, TOKEN_PREFIX + " " + jwt).body(response);
         } else {
-            response = new ApiResponse(HttpStatus.BAD_REQUEST.value(), "invalid.login.credentials",new LogInResponse(accountCredentials.email()));
+            response = new ApiResponse(400, "Invalid credentials");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).contentType(MediaType.TEXT_PLAIN).body(response);
-
         }
     }
 }
